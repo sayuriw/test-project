@@ -1,23 +1,28 @@
 <template>
   <div id="app" class="container mt-5">
-    <h1>My Shop</h1>
-    <price-slider
-      :sliderStatus="sliderStatus"
-      :maximum.sync="maximum"
-    ></price-slider>
-    <product-list
-      :products="products"
-      :maximum="maximum"
-      @add="addItem"
-    ></product-list>
+    <products
+    :cart="cart"
+    :cartQty="cartQty"
+    :cartTotal="cartTotal"
+    :sliderStatus="sliderStatus"
+    :maximum.sync="maximum"
+    :products="products"
+    @toggle="toggleSliderStatus"
+    @delete="deleteItem"
+    @add="addItem"
+    ></products
+      >
   </div>
 </template>
 
 <script>
-import ProductList from './components/ProductList.vue'
-import PriceSlider from './components/PriceSlider.vue'
+import Products from './components/Products.vue'
+
 export default {
   name: 'app',
+  components: {
+    Products
+  },
   data: function() {
     return {
       maximum: 99,
@@ -26,7 +31,33 @@ export default {
       products: null
     }
   },
+  computed: {
+    cartTotal: function() {
+   let sum = 0;
+   for (let key in this.cart) {
+    sum = sum+(this.cart[key].product.price * this.cart[key].qty);
+   }
+   return sum;
+  },
+  cartQty: function() {
+   let qty = 0;
+   for (let key in this.cart) {
+    qty = qty + this.cart[key].qty;
+   }
+   return qty;
+  },
+  },
   methods: {
+    toggleSliderStatus: function(){
+      this.sliderStatus = !this.sliderStatus
+    },
+    deleteItem: function(id) {
+   if(this.cart[id].qty>1) {
+    this.cart[id].qty--;
+   } else {
+    this.cart.splice(id, 1);
+   }
+  },
     addItem: function(product) {
       var whichProduct
       var existing = this.cart.filter(function(item, index) {
@@ -44,10 +75,6 @@ export default {
         this.cart.push({ product: product, qty: 1 })
       }
     }
-  },
-  components: {
-    ProductList,
-    PriceSlider
   },
   mounted: function() {
     fetch('https://hplussport.com/api/products/order/price')
