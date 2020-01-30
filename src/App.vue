@@ -1,27 +1,34 @@
 <template>
   <div id="app" class="container mt-5">
+    <checkout
+      :cart="cart"
+      :cartTotal="cartTotal"
+      @delete="deleteItem"
+      @add="addItem"
+    ></checkout>
     <products
-    :cart="cart"
-    :cartQty="cartQty"
-    :cartTotal="cartTotal"
-    :sliderStatus="sliderStatus"
-    :maximum.sync="maximum"
-    :products="products"
-    @toggle="toggleSliderStatus"
-    @delete="deleteItem"
-    @add="addItem"
-    ></products
-      >
+      :cart="cart"
+      :cartQty="cartQty"
+      :cartTotal="cartTotal"
+      :sliderStatus="sliderStatus"
+      :maximum.sync="maximum"
+      :products="products"
+      @toggle="toggleSliderStatus"
+      @delete="deleteItem"
+      @add="addItem"
+    ></products>
   </div>
 </template>
 
 <script>
+import Checkout from './components/Checkout.vue'
 import Products from './components/Products.vue'
 
 export default {
   name: 'app',
   components: {
-    Products
+    Products,
+    Checkout
   },
   data: function() {
     return {
@@ -33,31 +40,31 @@ export default {
   },
   computed: {
     cartTotal: function() {
-   let sum = 0;
-   for (let key in this.cart) {
-    sum = sum+(this.cart[key].product.price * this.cart[key].qty);
-   }
-   return sum;
-  },
-  cartQty: function() {
-   let qty = 0;
-   for (let key in this.cart) {
-    qty = qty + this.cart[key].qty;
-   }
-   return qty;
-  },
+      let sum = 0
+      for (let key in this.cart) {
+        sum = sum + this.cart[key].product.price * this.cart[key].qty
+      }
+      return sum
+    },
+    cartQty: function() {
+      let qty = 0
+      for (let key in this.cart) {
+        qty = qty + this.cart[key].qty
+      }
+      return qty
+    }
   },
   methods: {
-    toggleSliderStatus: function(){
+    toggleSliderStatus: function() {
       this.sliderStatus = !this.sliderStatus
     },
     deleteItem: function(id) {
-   if(this.cart[id].qty>1) {
-    this.cart[id].qty--;
-   } else {
-    this.cart.splice(id, 1);
-   }
-  },
+      if (this.cart[id].qty > 1) {
+        this.cart[id].qty--
+      } else {
+        this.cart.splice(id, 1)
+      }
+    },
     addItem: function(product) {
       var whichProduct
       var existing = this.cart.filter(function(item, index) {
