@@ -5,8 +5,6 @@
       :cart="cart"
       :cartQty="cartQty"
       :cartTotal="cartTotal"
-      @toggle="toggleSliderStatus"
-      @delete="deleteItem"
     ></navbar
       >
     <price-slider
@@ -16,7 +14,6 @@
     <product-list
       :products="products"
       :maximum="maximum"
-      @add="addItem"
     ></product-list>
   </div>
 </template>

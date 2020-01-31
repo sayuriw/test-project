@@ -1,9 +1,12 @@
 <template>
   <nav class="navbar navbar-light fixed-top">
     <div class="navbar-text ml-auto d-flex">
-      <button class="btn btn-sm btn-outline-success" @click="$parent.$emit('toggle')">
+      <button
+        class="btn btn-sm btn-outline-success"
+        @click="$parent.$emit('toggle')"
+      >
         <i class="fas fa-dollar-sign"></i>
-        <font-awesome-icon icon="dollar-sign"></font-awesome-icon>
+        <font-awesome-icon icon="shopping-cart"></font-awesome-icon>
       </button>
       <div class="dropdown ml-2" v-if="cart.length > 0">
         <button
@@ -39,6 +42,11 @@
               >
             </div>
           </div>
+          <router-link
+            class="btn btn-sm btn-outline-info text-dark float-right mr-4"
+            to="/checkout"
+            >Checkout</router-link
+          >
         </div>
       </div>
     </div>
@@ -47,12 +55,12 @@
 
 <script>
 import Price from './Price.vue'
-import { fontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 export default {
   name: 'navbar',
   props: ['cart', 'cartQty', 'cartTotal'],
   components: {
-    fontAwesomeIcon,
+    FontAwesomeIcon,
     Price
   }
 }

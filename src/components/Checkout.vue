@@ -43,6 +43,9 @@
         </tr>
       </tbody>
     </table>
+    <router-link class="btn btn-sm btn-outline-info text-dark float-right mr-4" to="/"
+      >Keep Shopping</router-link
+    >
   </div>
 </template>
 
